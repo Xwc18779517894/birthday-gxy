@@ -5,158 +5,201 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>🎂 葛鑫洋 生日快乐！</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
             min-height: 100vh;
-            background: linear-gradient(135deg, #0c0c1d 0%, #1a1a3e 40%, #0d0d2b 100%);
+            background: linear-gradient(135deg, #1a0a2e 0%, #16213e 30%, #0f3460 60%, #1a0a2e 100%);
             display: flex;
             justify-content: center;
             align-items: center;
             font-family: -apple-system, "PingFang SC", "Microsoft YaHei", sans-serif;
-            overflow: hidden;
+            overflow-x: hidden;
             position: relative;
+            padding: 20px;
         }
 
-        /* ===== 星空粒子背景 ===== */
-        #stars-canvas {
+        /* ===== 浮动粒子 ===== */
+        #particle-canvas {
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
             z-index: 0;
             pointer-events: none;
         }
 
-        /* ===== 流星 ===== */
-        .shooting-star {
-            position: fixed;
-            width: 120px;
-            height: 2px;
-            background: linear-gradient(to right, rgba(255,255,255,0), rgba(255,255,255,0.8));
-            border-radius: 1px;
-            z-index: 1;
-            animation: shoot linear forwards;
-            opacity: 0;
-        }
-        .shooting-star::after {
-            content: '';
-            position: absolute;
-            right: -4px;
-            top: -3px;
-            width: 8px;
-            height: 8px;
-            background: radial-gradient(circle, #fff, rgba(255,255,255,0));
-            border-radius: 50%;
+        /* ===== 主容器 ===== */
+        .container {
+            position: relative;
+            z-index: 2;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 24px;
+            max-width: 520px;
+            width: 100%;
         }
 
-        @keyframes shoot {
-            0%   { transform: translate(0, 0) rotate(-35deg); opacity: 1; }
-            100% { transform: translate(-400px, 280px) rotate(-35deg); opacity: 0; }
+        /* ===== 角色卡片行 ===== */
+        .characters {
+            display: flex;
+            gap: 16px;
+            width: 100%;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .char-card {
+            width: 150px;
+            height: 150px;
+            border-radius: 20px;
+            overflow: hidden;
+            border: 2px solid rgba(255,255,255,0.15);
+            box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+            transition: all 0.4s cubic-bezier(.34,1.56,.64,1);
+            cursor: pointer;
+            background: rgba(255,255,255,0.05);
+            backdrop-filter: blur(4px);
+            animation: floatIn 0.8s ease-out both;
+        }
+        .char-card:nth-child(1) { animation-delay: 0.2s; }
+        .char-card:nth-child(2) { animation-delay: 0.4s; }
+
+        .char-card:hover {
+            transform: translateY(-8px) scale(1.03);
+            border-color: rgba(255,255,255,0.4);
+            box-shadow: 0 16px 48px rgba(0,0,0,0.6);
+        }
+        .char-card:active { transform: scale(0.96); }
+
+        .char-card img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            transition: transform 0.5s;
+        }
+        .char-card:hover img { transform: scale(1.08); }
+
+        @keyframes floatIn {
+            0%   { opacity: 0; transform: translateY(30px) scale(0.9); }
+            100% { opacity: 1; transform: translateY(0) scale(1); }
         }
 
         /* ===== 主卡片 ===== */
         .card {
-            position: relative;
-            z-index: 2;
             text-align: center;
-            padding: 50px 60px;
-            max-width: 560px;
-            width: 90%;
-            background: rgba(255, 255, 255, 0.04);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            border-radius: 32px;
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            box-shadow: 0 30px 80px rgba(0, 0, 0, 0.6),
-                        inset 0 1px 0 rgba(255, 255, 255, 0.06);
-            animation: fadeUp 1s ease-out;
+            padding: 40px 44px 36px;
+            width: 100%;
+            background: rgba(255,255,255,0.06);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-radius: 28px;
+            border: 1px solid rgba(255,255,255,0.10);
+            box-shadow: 0 24px 80px rgba(0,0,0,0.5),
+                        inset 0 1px 0 rgba(255,255,255,0.08);
+            animation: fadeUp 0.8s ease-out 0.1s both;
         }
 
         @keyframes fadeUp {
-            0%   { opacity: 0; transform: translateY(40px) scale(0.96); }
-            100% { opacity: 1; transform: translateY(0) scale(1); }
-        }
-
-        /* ===== 生日蜡烛图标 ===== */
-        .icon {
-            font-size: 72px;
-            display: block;
-            margin-bottom: 12px;
-            animation: float 3s ease-in-out infinite;
-        }
-        @keyframes float {
-            0%, 100% { transform: translateY(0); }
-            50%      { transform: translateY(-12px); }
+            0%   { opacity: 0; transform: translateY(30px); }
+            100% { opacity: 1; transform: translateY(0); }
         }
 
         /* ===== 标题 ===== */
-        h1 {
-            font-size: 42px;
-            font-weight: 700;
-            color: #fff;
-            letter-spacing: 2px;
-            margin-bottom: 6px;
+        .jp-sub {
+            font-size: 14px;
+            color: rgba(255,255,255,0.35);
+            letter-spacing: 6px;
+            margin-bottom: 4px;
         }
-        h1 .highlight {
-            background: linear-gradient(135deg, #f6d365, #fda085, #f093fb);
+
+        h1 {
+            font-size: 40px;
+            font-weight: 800;
+            margin-bottom: 4px;
+        }
+        h1 .name {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 30%, #4facfe 70%, #43e97b 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
+            background-size: 200% 200%;
+            animation: gradientShift 4s ease-in-out infinite;
+        }
+        @keyframes gradientShift {
+            0%, 100% { background-position: 0% 50%; }
+            50%      { background-position: 100% 50%; }
         }
 
-        .sub {
-            font-size: 18px;
-            color: rgba(255,255,255,0.5);
-            margin-bottom: 30px;
-            letter-spacing: 4px;
-        }
-
-        /* ===== 祝福语 ===== */
-        .message {
-            color: rgba(255,255,255,0.78);
-            font-size: 17px;
-            line-height: 1.9;
-            margin-bottom: 32px;
-            padding: 0 8px;
+        .en-sub {
+            font-size: 16px;
+            color: rgba(255,255,255,0.4);
+            letter-spacing: 6px;
+            margin-bottom: 20px;
         }
 
         /* ===== 装饰分割 ===== */
         .divider {
-            width: 60px;
-            height: 2px;
-            margin: 0 auto 28px;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.25), transparent);
-            border-radius: 1px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 24px;
+        }
+        .divider .line {
+            width: 40px;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2));
+        }
+        .divider .line:last-child {
+            background: linear-gradient(90deg, rgba(255,255,255,0.2), transparent);
+        }
+        .divider .dot {
+            width: 5px;
+            height: 5px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.15);
         }
 
-        /* ===== 日期标签 ===== */
+        /* ===== 祝福短句 ===== */
+        .wish {
+            color: rgba(255,255,255,0.7);
+            font-size: 15px;
+            line-height: 2;
+            margin-bottom: 20px;
+        }
+        .wish span {
+            display: inline-block;
+            animation: glow 3s ease-in-out infinite;
+        }
+        @keyframes glow {
+            0%, 100% { opacity: 0.7; }
+            50%      { opacity: 1; text-shadow: 0 0 12px rgba(255,255,255,0.15); }
+        }
+
+        /* ===== 日期 ===== */
         .date-badge {
             display: inline-block;
-            padding: 6px 22px;
+            padding: 5px 20px;
             border-radius: 20px;
-            background: rgba(255,255,255,0.06);
-            border: 1px solid rgba(255,255,255,0.08);
-            color: rgba(255,255,255,0.35);
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.06);
+            color: rgba(255,255,255,0.3);
             font-size: 13px;
-            letter-spacing: 1px;
+            letter-spacing: 2px;
         }
 
-        /* ===== 底部按钮 ===== */
+        /* ===== 烟花按钮 ===== */
         .btn-wrap {
-            margin-top: 28px;
+            margin-top: 20px;
         }
         .btn-wrap button {
-            padding: 10px 36px;
+            padding: 10px 32px;
             border: none;
             border-radius: 30px;
-            background: linear-gradient(135deg, rgba(255,255,255,0.1), rgba(255,255,255,0.04));
-            color: rgba(255,255,255,0.5);
+            background: linear-gradient(135deg, rgba(255,255,255,0.10), rgba(255,255,255,0.03));
+            color: rgba(255,255,255,0.45);
             font-size: 14px;
             cursor: pointer;
             backdrop-filter: blur(6px);
@@ -164,56 +207,69 @@
             transition: all 0.3s;
             -webkit-tap-highlight-color: transparent;
         }
-        .btn-wrap button:active {
-            transform: scale(0.95);
+        .btn-wrap button:hover {
             background: rgba(255,255,255,0.12);
+            color: rgba(255,255,255,0.7);
+        }
+        .btn-wrap button:active {
+            transform: scale(0.94);
         }
 
         /* ===== 响应式 ===== */
         @media (max-width: 480px) {
-            .card { padding: 36px 24px; }
+            .char-card { width: 120px; height: 120px; }
+            .card { padding: 28px 20px 24px; }
             h1    { font-size: 30px; }
-            .icon { font-size: 56px; }
-            .message { font-size: 15px; }
         }
     </style>
 </head>
 <body>
 
-    <!-- 星空粒子 -->
-    <canvas id="stars-canvas"></canvas>
+    <!-- 粒子背景 -->
+    <canvas id="particle-canvas"></canvas>
 
-    <!-- 流星 JS 动态生成 -->
+    <!-- ===== 主内容 ===== -->
+    <div class="container">
 
-    <!-- ===== 主卡片 ===== -->
-    <div class="card">
-        <span class="icon">🎂</span>
-        <h1>🎉 <span class="highlight">葛鑫洋</span> 🎉</h1>
-        <div class="sub">HAPPY BIRTHDAY</div>
-        <div class="divider"></div>
-        <div class="message">
-            愿你新的一岁<br>
-            有酒有肉有朋友 🍻<br>
-            无病无灾无烦恼 💪<br>
-            想做的事都做成<br>
-            想去的地方都抵达<br>
-            每一天都过得滚烫又尽兴 🔥
+        <!-- 角色图片 -->
+        <div class="characters">
+            <div class="char-card">
+                <img src="20230210080133_3e7c6.jpeg" alt="孤独摇滚" loading="lazy">
+            </div>
+            <div class="char-card">
+                <img src="OIP-C.jpg" alt="八奈" loading="lazy">
+            </div>
         </div>
 
-        <div class="date-badge">
-            🗓️ 2026 · 06 · 05
-        </div>
+        <!-- 生日卡片 -->
+        <div class="card">
+            <div class="jp-sub">🎵 お誕生日おめでとう 🎵</div>
+            <h1><span class="name">葛鑫洋</span></h1>
+            <div class="en-sub">HAPPY BIRTHDAY</div>
 
-        <div class="btn-wrap">
-            <button onclick="fireConfetti()">🎊 放个烟花</button>
+            <div class="divider">
+                <span class="line"></span>
+                <span class="dot"></span>
+                <span class="line"></span>
+            </div>
+
+            <div class="wish">
+                <span>🎉 新的一岁，也要闪闪发光 🎉</span>
+            </div>
+
+            <div class="date-badge">2026.06.05</div>
+
+            <div class="btn-wrap">
+                <button onclick="fireConfetti()">🎊 放烟花</button>
+            </div>
         </div>
     </div>
 
     <script>
         // ============================================================
-        //  1. 星空粒子（Canvas）
+        //  1. 粒子背景
         // ============================================================
-        const canvas = document.getElementById('stars-canvas');
+        const canvas = document.getElementById('particle-canvas');
         const ctx = canvas.getContext('2d');
         let W, H;
 
@@ -224,82 +280,77 @@
         window.addEventListener('resize', resize);
         resize();
 
-        const STAR_COUNT = 220;
-        const stars = Array.from({ length: STAR_COUNT }, () => ({
+        // 彩色粒子
+        const COLORS = ['#f093fb80','#f5576c80','#4facfe80','#43e97b80','#f6d36580','#a18cd180'];
+        const COUNT = 150;
+        const ps = Array.from({ length: COUNT }, () => ({
             x: Math.random() * W,
             y: Math.random() * H,
-            r: Math.random() * 1.8 + 0.3,
-            a: Math.random(),
-            da: (Math.random() - 0.5) * 0.012,
+            r: Math.random() * 3 + 1.5,
+            c: COLORS[Math.floor(Math.random() * COLORS.length)],
+            dx: (Math.random() - 0.5) * 0.6,
+            dy: (Math.random() - 0.5) * 0.6 - 0.2,
+            a: Math.random() * 0.5 + 0.2,
+            da: (Math.random() - 0.5) * 0.005,
         }));
 
-        function drawStars() {
+        function drawParticles() {
             ctx.clearRect(0, 0, W, H);
-            stars.forEach(s => {
-                s.a += s.da;
-                if (s.a < 0.1 || s.a > 0.9) s.da *= -1;
+            ps.forEach(p => {
+                p.x += p.dx;
+                p.y += p.dy;
+                p.a += p.da;
+                if (p.a < 0.1 || p.a > 0.6) p.da *= -1;
+                if (p.x < -10) p.x = W + 10;
+                if (p.x > W + 10) p.x = -10;
+                if (p.y < -10) p.y = H + 10;
+                if (p.y > H + 10) p.y = -10;
+
                 ctx.beginPath();
-                ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
-                ctx.fillStyle = `rgba(255,255,255,${s.a})`;
+                ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+                ctx.fillStyle = p.c.replace('80', Math.round(p.a * 128).toString(16).padStart(2,'0'));
                 ctx.fill();
             });
-            requestAnimationFrame(drawStars);
+            requestAnimationFrame(drawParticles);
         }
-        drawStars();
+        drawParticles();
 
         // ============================================================
-        //  2. 流星
-        // ============================================================
-        function spawnShootingStar() {
-            const el = document.createElement('div');
-            el.className = 'shooting-star';
-            el.style.top  = (Math.random() * H * 0.4) + 'px';
-            el.style.left = (Math.random() * W * 0.6 + W * 0.4) + 'px';
-            el.style.width = (80 + Math.random() * 100) + 'px';
-            el.style.animationDuration = (1.2 + Math.random() * 1.0) + 's';
-            document.body.appendChild(el);
-            setTimeout(() => el.remove(), 2500);
-        }
-        setInterval(spawnShootingStar, 2200);
-        setTimeout(spawnShootingStar, 500);
-
-        // ============================================================
-        //  3. 简易烟花（彩纸掉落）
+        //  2. 烟花
         // ============================================================
         function fireConfetti() {
-            const colors = ['#f6d365','#fda085','#f093fb','#4facfe','#43e97b','#fa709a','#fee140','#a18cd1'];
-            for (let i = 0; i < 80; i++) {
+            const colors = ['#f093fb','#f5576c','#4facfe','#43e97b','#f6d365','#fee140','#a18cd1','#fa709a'];
+            for (let i = 0; i < 100; i++) {
                 const c = document.createElement('div');
+                const size = 5 + Math.random() * 9;
                 c.style.cssText = `
                     position: fixed;
                     z-index: 999;
-                    width: ${6 + Math.random() * 8}px;
-                    height: ${6 + Math.random() * 8}px;
+                    width: ${size}px;
+                    height: ${size}px;
                     background: ${colors[Math.floor(Math.random() * colors.length)]};
                     border-radius: ${Math.random() > 0.5 ? '50%' : '2px'};
-                    left: ${40 + Math.random() * 20}%;
-                    top: ${30 + Math.random() * 20}%;
+                    left: ${35 + Math.random() * 30}%;
+                    top: ${28 + Math.random() * 20}%;
                     pointer-events: none;
                     opacity: 1;
                     transform: translate(0, 0) rotate(0deg);
-                    transition: all ${1.8 + Math.random() * 1.2}s cubic-bezier(.25,.46,.45,.94);
+                    transition: all ${1.5 + Math.random() * 1.5}s cubic-bezier(.25,.46,.45,.94);
                 `;
                 document.body.appendChild(c);
-
                 requestAnimationFrame(() => {
-                    c.style.transform = `translate(${(Math.random() - 0.5) * 500}px, ${300 + Math.random() * 400}px) rotate(${Math.random() * 720}deg)`;
+                    c.style.transform = `translate(${(Math.random() - 0.5) * 600}px, ${200 + Math.random() * 400}px) rotate(${Math.random() * 720}deg)`;
                     c.style.opacity = '0';
                 });
-
                 setTimeout(() => c.remove(), 3500);
             }
         }
 
         // ============================================================
-        //  4. 控制台彩蛋
+        //  3. 控制台彩蛋
         // ============================================================
-        console.log('%c🎂 葛鑫洋 生日快乐！🎂', 'font-size:20px; font-weight:bold; color:#f6d365;');
-        console.log('%c来自小怡的祝福 💕', 'font-size:14px; color:#aaa;');
+        console.log('%c🎂 葛鑫洋 お誕生日おめでとう！ 🎂', 'font-size:18px; font-weight:bold; background:linear-gradient(135deg,#f093fb,#f5576c); color:#fff; padding:4px 12px; border-radius:4px;');
+        console.log('%c⭐ 二次元浓度拉满 ⭐', 'font-size:13px; color:#aaa;');
     </script>
 </body>
 </html>
